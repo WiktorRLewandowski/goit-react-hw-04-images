@@ -3,7 +3,7 @@ import { FaSearch, FaGithub } from 'react-icons/fa'
 export const SearchBar = ({ onSubmit, onChange, value}) => {
     return(
         <div className="wrapper">
-            <p className="logo"><a href="#">Catt&nbsp;O'Finder</a></p>
+            <p className="logo"><a href="./*">Catt&nbsp;O'Finder</a></p>
             <form onSubmit={onSubmit} className="search-form">
                 <input 
                     className="search-input" 
