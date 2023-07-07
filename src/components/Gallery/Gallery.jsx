@@ -1,8 +1,8 @@
 import { GalleryItem } from "components/GalleryItem"
 
-export const Gallery = ({images}) => (
+export const Gallery = ({images, onClick}) => (
       <ul>
-        {images.map(({webformatURL, id, tags, onClick, largeImageURL})=> {
+        {images.map(({webformatURL, id, tags, largeImageURL})=> {
           return (
             <GalleryItem
             key={id}

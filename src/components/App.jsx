@@ -17,7 +17,8 @@ class App extends Component {
     page: 2, //łopatnicze, ale działa...
     isLoading: false,
     searchValue: '',
-    showModal: false
+    showModal: false,
+    modalImage: ''
   }
 
   componentDidMount = async () => {
@@ -62,13 +63,21 @@ class App extends Component {
     this.fetchData()
   }
 
+  imageClick = e => {
+    this.setState({showModal: true, modalImage: e})
+  }
+
+  modalClose = () => {
+    this.setState({showModal: false})
+  }
+
   // handleChange = e => {
   //   this.setState({value: e.target.value})
   // }
 
   render() {
-    const {images, error, isLoading, showModal} = this.state
-
+    const {images, error, isLoading, showModal, modalImage} = this.state
+    console.log(modalImage)
     if(error) {
       return (
       <div>Ooopsie, all went to shit...</div>
@@ -78,10 +87,10 @@ class App extends Component {
     return (
       <>
       <SearchBar onSubmit={this.handleSubmit}/>
-      {images.length !== 0 && <Gallery images={images}/>}  
+      {images.length !== 0 && <Gallery images={images} onClick={this.imageClick}/>}  
       {isLoading === true && <Loader/>}
       {images.length >= 12 && <Button onClick={this.loadMoreButton}/>}
-      {showModal && <Modal/>}
+      {showModal && <Modal onClick={this.modalClose} onCloseModal={this.modalClose} image={modalImage}/>}
       </>
     )
   }
