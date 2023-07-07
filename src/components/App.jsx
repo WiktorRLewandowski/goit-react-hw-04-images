@@ -1,16 +1,23 @@
 import { Component } from "react";
 import { SearchBar } from "./SearchBar";
 import { Gallery } from "./Gallery";
+import { Button } from "./Button";
+import Modal from "./Modal/Modal";
 
 import { fetchImages } from "services";
 
 import { ThreeCircles } from "react-loader-spinner";
+
+const Loader = () => <ThreeCircles color="indigo"/>
+
 class App extends Component {
   state = {
     images: [],
     error: null,
-    page: 1,
-    isLoading: false
+    page: 2, //łopatnicze, ale działa...
+    isLoading: false,
+    searchValue: '',
+    showModal: false
   }
 
   componentDidMount = async () => {
@@ -25,11 +32,34 @@ class App extends Component {
   handleSubmit = async e => {
     e.preventDefault()
     this.setState({isLoading:true})
+    this.setState({page:2})
     const {value} = e.target.searchQuery
-    await fetchImages(value)
-    .then(images => this.setState({images}))
+    await fetchImages(value.trim())
+    .then(images => this.setState({images, searchValue:value}))
     .catch(error => this.setState({error}))
     .then(()=> this.setState({isLoading:false}))
+  }
+
+  fetchData = async () => {
+    console.log('updating component')
+    const { searchValue, page } = this.state
+    this.setState({isLoading: true})
+    await fetchImages(searchValue, page)
+    .then(images => this.setState(prevState => ({
+      images: [
+        ...prevState.images, 
+        ...images,]
+        })
+      )
+    )
+    .catch(error => this.setState({error}))
+    .then(()=> this.setState({isLoading: false}))
+  }
+
+  loadMoreButton = () => {
+    this.setState((prevState => ({ page: prevState.page +1 })))
+    console.log(this.state.page)
+    this.fetchData()
   }
 
   // handleChange = e => {
@@ -37,24 +67,21 @@ class App extends Component {
   // }
 
   render() {
-    const {images, error, isLoading} = this.state
-          console.log(images)
+    const {images, error, isLoading, showModal} = this.state
+
     if(error) {
       return (
       <div>Ooopsie, all went to shit...</div>
       )
     }
 
-    if (isLoading) {
-      return (
-        <ThreeCircles color={'indigo'}/>
-      )
-    }
-
     return (
       <>
       <SearchBar onSubmit={this.handleSubmit}/>
-      <Gallery images={images}/>
+      {images.length !== 0 && <Gallery images={images}/>}  
+      {isLoading === true && <Loader/>}
+      {images.length >= 12 && <Button onClick={this.loadMoreButton}/>}
+      {showModal && <Modal/>}
       </>
     )
   }
