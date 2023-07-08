@@ -2,13 +2,12 @@ import { Component } from "react";
 import { SearchBar } from "./SearchBar";
 import { Gallery } from "./Gallery";
 import { Button } from "./Button";
+import { Loader } from "./Loader";
 import Modal from "./Modal/Modal";
 
 import { fetchImages } from "services";
 
-import { ThreeCircles } from "react-loader-spinner";
-
-const Loader = () => <ThreeCircles color="indigo"/>
+import { Notify } from "notiflix";
 
 class App extends Component {
   state = {
@@ -22,7 +21,6 @@ class App extends Component {
   }
 
   componentDidMount = async () => {
-    console.log('mounting component')
     this.setState({isLoading: true})
     await fetchImages()
     .then(images => this.setState({images}))
@@ -36,13 +34,14 @@ class App extends Component {
     this.setState({page:2})
     const {value} = e.target.searchQuery
     await fetchImages(value.trim())
-    .then(images => this.setState({images, searchValue:value}))
+    .then(images => images.length === 0 
+      ? Notify.failure('Sorry, pal. No photos for ya!') 
+      : this.setState({images, searchValue:value}))
     .catch(error => this.setState({error}))
     .then(()=> this.setState({isLoading:false}))
   }
 
   fetchData = async () => {
-    console.log('updating component')
     const { searchValue, page } = this.state
     this.setState({isLoading: true})
     await fetchImages(searchValue, page)
@@ -59,25 +58,21 @@ class App extends Component {
 
   loadMoreButton = () => {
     this.setState((prevState => ({ page: prevState.page +1 })))
-    console.log(this.state.page)
     this.fetchData()
   }
 
   imageClick = e => {
-    this.setState({showModal: true, modalImage: e})
+    this.setState({showModal: true, modalImage: e, isLoading: true})
+    setTimeout(()=> this.setState({isLoading:false}), 250)
   }
 
-  modalClose = () => {
+  modalClose = (e) => {
+    // if (e.target.nodeName === 'IMG') return // yo, y u no workin'
     this.setState({showModal: false})
   }
 
-  // handleChange = e => {
-  //   this.setState({value: e.target.value})
-  // }
-
   render() {
     const {images, error, isLoading, showModal, modalImage} = this.state
-    console.log(modalImage)
     if(error) {
       return (
       <div>Ooopsie, all went to shit...</div>
@@ -86,11 +81,12 @@ class App extends Component {
 
     return (
       <>
+      {showModal && <Modal onClick={this.modalClose} onCloseModal={this.modalClose} image={modalImage}/>}
       <SearchBar onSubmit={this.handleSubmit}/>
       {images.length !== 0 && <Gallery images={images} onClick={this.imageClick}/>}  
       {isLoading === true && <Loader/>}
       {images.length >= 12 && <Button onClick={this.loadMoreButton}/>}
-      {showModal && <Modal onClick={this.modalClose} onCloseModal={this.modalClose} image={modalImage}/>}
+      
       </>
     )
   }

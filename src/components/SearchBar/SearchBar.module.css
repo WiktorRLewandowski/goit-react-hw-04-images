@@ -1,0 +1,82 @@
+.header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+    background-color: indigo;
+    padding-block: 8px;
+}
+  
+.wrapper {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding-inline: 15px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 680px) {
+    .wrapper {
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+    }
+}
+
+.icon {
+    color: #fff;
+    font-size: 2rem;
+}
+
+.contact {
+    width: 220px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo {
+    color: #fff;
+    font-family: 'Amatic SC', cursive;
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+.form {
+    position: relative;
+}
+  
+.input {
+    padding: 5px 47px 5px 5px;
+    border: none;
+    border-radius: 4px;
+    width: 300px;
+}
+.submit {
+    position: absolute;
+    top: 4px;
+    right: 7px;
+    border-style: none;
+    border-radius: 4px;
+    padding: 2px;
+    height: 18px;
+    width: 18px;
+    background-color: #fff;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.6;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
+}
+
+.icon,
+.logo {
+    &:hover {
+        opacity: 0.8;
+    }
+}

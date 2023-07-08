@@ -1,4 +1,5 @@
 import { Component } from "react";
+import css from './Modal.module.css'
 
 class Modal extends Component {
 
@@ -20,12 +21,16 @@ class Modal extends Component {
         this.props.onCloseModal();
       };
 
+      stopClick = (e) => {
+        e.preventDefault();
+      }
+
     render() {
         const {image, tag} = this.props
         return(
-            <div className="overlay" onClick={this.handleCloseClick}>
-                <div className="modal">
-                    <img src={image} alt={tag} />
+            <div className={css.overlay} onClick={this.handleCloseClick}>
+                <div className={css.modal}>
+                    <img className={css.image} src={image} alt={tag} onClick={this.stopClick}/>
                 </div>
             </div>
         )
