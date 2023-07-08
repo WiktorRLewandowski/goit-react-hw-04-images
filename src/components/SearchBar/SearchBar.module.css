@@ -37,6 +37,11 @@
     align-items: center;
 }
 
+@font-face {
+    font-family: 'Amatic SC';
+    src: url(../../../public/AmaticSC-Bold.ttf);
+}
+
 .logo {
     color: #fff;
     font-family: 'Amatic SC', cursive;

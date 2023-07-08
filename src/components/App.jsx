@@ -13,7 +13,7 @@ class App extends Component {
   state = {
     images: [],
     error: null,
-    page: 2, //łopatnicze, ale działa...
+    page: 2, //clunky and graceless... but works!
     isLoading: false,
     searchValue: '',
     showModal: false,
@@ -67,7 +67,7 @@ class App extends Component {
   }
 
   modalClose = (e) => {
-    // if (e.target.nodeName === 'IMG') return // yo, y u no workin'
+    // if (e.target.nodeName === 'IMG') return // yo, y u no workin' where's target?
     this.setState({showModal: false})
   }
 
