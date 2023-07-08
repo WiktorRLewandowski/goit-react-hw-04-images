@@ -1,7 +1,12 @@
 import { Component } from "react";
 import css from './Modal.module.css'
+import PropTypes from 'prop-types'
 
 class Modal extends Component {
+
+    static propTypes = {
+      image: PropTypes.string,
+    }
 
     componentDidMount() {
         document.addEventListener('keydown', this.handleKeyDown);

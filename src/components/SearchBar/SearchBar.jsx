@@ -1,7 +1,8 @@
 import { FaSearch, FaGithub } from 'react-icons/fa';
 import css from './SearchBar.module.css'
+import PropTypes from 'prop-types'
 
-export const SearchBar = ({ onSubmit, onChange, value}) => {
+export const SearchBar = ({ onSubmit }) => {
     return(
         <header className={css.header}>
         <div className={css.wrapper}>
@@ -11,8 +12,6 @@ export const SearchBar = ({ onSubmit, onChange, value}) => {
                     className={css.input} 
                     type="text" 
                     name="searchQuery"
-                    onChange={onChange}
-                    value={value} 
                     autoComplete="off" 
                     placeholder="Search images..." />
                 <button className={css.submit} type="submit"><FaSearch/></button>
@@ -23,4 +22,8 @@ export const SearchBar = ({ onSubmit, onChange, value}) => {
         </div>
         </header>
     )
+}
+
+SearchBar.propTypes = {
+    onSubmit: PropTypes.func
 }

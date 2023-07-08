@@ -1,5 +1,6 @@
 import { GalleryItem } from "components/GalleryItem"
 import css from './Gallery.module.css'
+import PropTypes from 'prop-types'
 
 export const Gallery = ({images, onClick}) => (
       <ul className={css.gallery}>
@@ -14,4 +15,9 @@ export const Gallery = ({images, onClick}) => (
           )
         })}
       </ul>
-    )
+)
+
+Gallery.propTypes = {
+  images: PropTypes.arrayOf(PropTypes.object),
+  onClick: PropTypes.func
+}
