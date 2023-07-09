@@ -1,1 +1,1 @@
-## https://wiktorrlewandowski.github.io/goit-react-hw-04-image-finder/
+## https://wiktorrlewandowski.github.io/goit-react-hw-04-images
